@@ -1,66 +1,66 @@
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
   <head>
-    <meta charset="utf-8">
-    <style>
+	<meta charset="utf-8">
+	<style>
 body {
-    background-color: #eee;
-    font-size: 1.1em;
-    margin: 0;
-    padding: 0;
-    text-align: center;
+	background-color: #eee;
+	font-size: 1.1em;
+	margin: 0;
+	padding: 0;
+	text-align: center;
 }
 main {
-    background-color: white;
-    height: 100%;
-    margin : 0 auto;
-    min-height:100vh;
-    padding:0;;
-    width: 90vw;
+	background-color: white;
+	height: 100%;
+	margin : 0 auto;
+	min-height:100vh;
+	padding:0;;
+	width: 90vw;
 }
 h1 {
-    border-bottom: 1px solid #ddd;
-    font-size: 2em;
-    margin:0 auto 1em;
-    width: 80vw;
+	border-bottom: 1px solid #ddd;
+	font-size: 2em;
+	margin:0 auto 1em;
+	width: 80vw;
 }
 p {
-    margin: 1px;
+	margin: 1px;
 }
 textarea {
-    width: 60vw;
-    height: 10em;
+	width: 60vw;
+	height: 10em;
 }
 
 
 #m {
-    background-color:#ccc;
-    border : solid #444 1px;
-    border-radius: 4px;
-    margin:auto;
-    padding-bottom: 3em;
-    width: 60vw;
+	background-color:#ccc;
+	border : solid #444 1px;
+	border-radius: 4px;
+	margin:auto;
+	padding-bottom: 3em;
+	width: 60vw;
 }
-    </style>
-    <title>一次式計算機</title>
+	</style>
+	<title>計算機</title>
   </head>
   <body>
-    <main>
-        <h1>一次式計算機</h1>
-        <textarea placeholder="式を入力" id="U" pattern="^[0123456789x\+\-\*\/\[\]]$"></textarea>
-        <p>結果 : <div id="m"></div></p>
-        <h2>これは何？</h2>
-        <p>1次式と定数の計算をするツールです。変数xと+-*/の四則演算がご利用いただけます。</p>
-        <p>また、絶対値関数の計算ができます。ただし|x|ではなく[x]と入力してください。</p>
-        <h2>注意</h2>
-        <p>小数はご利用いただけません。分数の使用をお願いします。ただし計算結果は分数ではなく小数が用いられます。</p>
-        <p>積は記号を省略しても構いません。</p>
-        <p>二次以上の式は計算できません。また、整式の除法はできません。</p>
-    </main>
-    
-        <script>
-const $=document,J=a=>"+-".includes(a),calc=$.getElementById("calc"),Q=b=>{let a=$.createElement("li");a.innerHTML=b,calc.appendChild(a)},F=b=>{let a=[];for(i=0;i<=b.length;i++){if("[(".includes(b[i])&&a.push(b[i]),"("===a[a.length-1]&&")"===b[i]&&a.pop(),"["===a[a.length-1]&&"]"===b[i]&&a.pop(),("+-*/".includes(b[i])|| void 0===b[i])&&0===a.length)return i-1;if(")]".includes(b[i])&&0===a.length)return i}},L=b=>{let a=[];for(i=b.length-1;i>= -1;i--){if("])".includes(b[i])&&a.push(b[i]),")"===a[a.length-1]&&"("===b[i]&&a.pop(),"]"===a[a.length-1]&&"["===b[i]&&a.pop(),("+-*/".includes(b[i])|| void 0===b[i])&&0===a.length)return i+1;if("([".includes(b[i])&&0===a.length)return i}},T=a=>"x"===a?{n:[[-1/0,[0,1]]],D:0}:a.endsWith("x")?{n:[[-1/0,[0,Number(a.slice(0,-1))]]],D:0}:{n:[[-1/0,[Number(a),0]]],D:0},M=(c,d)=>{let b=c.slice(0,L(c));for(let a=b.length-1;0<=a;){if(b[a]===d)return a;")]".includes(b[a])&&(a=L(b.slice(0,a+1))),a--}return -1},s=a=>a.startsWith("(")&&a.endsWith(")")?p(a.slice(1,a.length-1)):a.startsWith("[")&&a.endsWith("]")?[p(a.slice(1,a.length-1)),"abs"]:[a],p=a=>{if(a.match(/0x\d/))return;if(0===L(a))return s(a);a.slice(L(a));let b=Math.max(M(a,"+"),M(a,"-"));return -1===b&&(b=Math.max(M(a,"*"),M(a,"/"))),[p(a.slice(0,b)),a[b],p(a.slice(b+1))]},O=a=>{if(Array.isArray(a[0]))a[0]=O(a[0]);else if(Array.isArray(a[2]))a[2]=O(a[2]);else if("string"==typeof a[0])a[0]=T(a[0]);else if("string"==typeof a[2])a[2]=T(a[2]);else{if(1===a.length)return a[0];let c=[];for(let i=0;i<a[0].n.length;i++)c.push(a[0].n[i][0]);if(3===a.length)for(let j=0;j<a[2].n?.length;j++)c.push(a[2].n[j][0]);(c=[...new Set(c)]).sort((a,b)=>a-b);let f=[],k=Math.max(a[0].D,a[2]?.D??0),b=0,e=0;for(let d=0;d<c.length;d++){if("+"===a[1])f.push([c[d],[a[0].n[b][1][0]+a[2].n[e][1][0],a[0].n[b][1][1]+a[2].n[e][1][1],]]);else if("-"===a[1])f.push([c[d],[a[0].n[b][1][0]-a[2].n[e][1][0],a[0].n[b][1][1]-a[2].n[e][1][1],]]);else if("*"===a[1]){if(0!==a[0].n[b][1][1]&&0!==a[2].n[e][1][1])throw 0;f.push([c[d],[a[0].n[b][1][0]*a[2].n[e][1][0],a[0].n[b][1][1]*a[2].n[e][1][0]+a[0].n[b][1][0]*a[2].n[e][1][1],]])}else if("/"===a[1]){if(0!==a[2].n[e][1][1])throw 0;f.push([c[d],[a[0].n[b][1][0]/a[2].n[e][1][0],a[0].n[b][1][1]/a[2].n[e][1][0],]])}else if("abs"===a[1]){if(0===d&&k++,0===a[0].n[b][1][1])f.push([c[d],[Math.abs(a[0].n[b][1][0]),0,]]);else{let g=0-a[0].n[b][1][0]/a[0].n[b][1][1];if(g<=c[d]||c[d+1]<=g){let l=Math.sign(a[0].n[b][1][1]*(c[d]+(c[d+1]??1/0))/2+a[0].n[b][1][0]);f.push([c[d],[l*a[0].n[b][1][0],l*a[0].n[b][1][1],]])}else{let h=Math.sign(a[0].n[b][1][1]*(c[d]+g)/2+a[0].n[b][1][0]);f.push([c[d],[h*a[0].n[b][1][0],h*a[0].n[b][1][1],]],[g,[-1*h*a[0].n[b][1][0],-1*h*a[0].n[b][1][1],]])}}}c[d+1]===(a[0].n[b+1]??[])[0]&&b++,c[d+1]===(a[2]?.n[e+1]??[])[0]&&e++}return{n:f,D:k}}return a},m=$.getElementById("m");$.body.addEventListener("input",()=>{try{let a=$.getElementById("U").value;if(""===a&&(m.innerHTML=""),!"0123456789x+-*/[]()".includes(a[a.length-1])){a=$.getElementById("U").value=a.slice(0,a.length-1);return}if(a=(a=a.replace(/^([\+\-])/g,"0$1").replace(/([\(\[])([\+\-])/g,"$10$2")).replace(/([\d\)\]x])([\(\[x])/g,"$1*$2"),m.innerHTML="",void 0===L(a)|| void 0===F(a))return;let g=p(a),c=[];for(let f=0;"string"!=typeof c&&(c=O(g),"object"!=typeof c||Array.isArray(c));f++)if(f>=100)return;let d=(a,b)=>c.n[a][1][b],b="";for(let e=1;e<c.n.length;e++)P=c.n[e][0],b+=(d(e,1)-d(e-1,1))/2+"[x+"+ -P+"]+";b+=(d(0,1)+d(c.n.length-1,1))/2+"x+"+(d(0,0)+d(c.n.length-1,0))/2,b=b.replace(/[\+\-]?0\[.+?\]/g,"").replace(/\+\-/g,"-").replace(/^1\[/g,"[").replace(/([\+\-])1\[/g,"$1[").replace("[x+0]","[x]").replace(/([\+\-])0x/g,"").replace(/([\+\-])1x/g,"$1x").replace(/^0x/g,"").replace(/^1x/g,"x").replace(/(.)[\+\-]0$/g,"$1").replace(/^\+/g,""),""===b&&(b="0"),b.includes("NaN")&&(b=""),b=b.replace(/[\[\]]/g,"|"),m.innerHTML=b}catch(h){}})
+	<main>
+		<h1>計算機</h1>
+		<textarea placeholder="式を入力" id="U" pattern="^[0123456789x\+\-\*\/\[\]]$"></textarea>
+		<p>結果 : <div id="m"></div></p>
+		<h2>これは何？</h2>
+		<p>1次式と定数の計算をするツールです。変数xと+-*/の四則演算がご利用いただけます。</p>
+		<p>また、絶対値関数の計算ができます。ただし|x|ではなく[x]と入力してください。</p>
+		<h2>注意</h2>
+		<p>小数はご利用いただけません。分数の使用をお願いします。ただし計算結果は分数ではなく小数が用いられます。</p>
+		<p>積は記号を省略しても構いません。</p>
+		<p>二次以上の式は計算できません。また、整式の除法はできません。</p>
+	</main>
+	
+		<script>
+const $=document,J=a=>"+-".includes(a),F=b=>{let a=[];for(i=0;i<=b.length;i++){if("[(".includes(b[i])&&a.push(b[i]),"("===a[a.length-1]&&")"===b[i]&&a.pop(),"["===a[a.length-1]&&"]"===b[i]&&a.pop(),("+-*/".includes(b[i])|| void 0===b[i])&&0===a.length)return i-1;if(")]".includes(b[i])&&0===a.length)return i}},L=b=>{let a=[];for(i=b.length-1;i>= -1;i--){if("])".includes(b[i])&&a.push(b[i]),")"===a[a.length-1]&&"("===b[i]&&a.pop(),"]"===a[a.length-1]&&"["===b[i]&&a.pop(),("+-*/".includes(b[i])|| void 0===b[i])&&0===a.length)return i+1;if("([".includes(b[i])&&0===a.length)return i}},T=a=>"x"===a?{n:[[-1/0,[0,1]]],D:0}:a.endsWith("x")?{n:[[-1/0,[0,Number(a.slice(0,-1))]]],D:0}:{n:[[-1/0,[Number(a),0]]],D:0},M=(c,d)=>{let b=c.slice(0,L(c));for(let a=b.length-1;0<=a;){if(b[a]===d)return a;")]".includes(b[a])&&(a=L(b.slice(0,a+1))),a--}return -1},s=a=>a.startsWith("(")&&a.endsWith(")")?p(a.slice(1,a.length-1)):a.startsWith("[")&&a.endsWith("]")?[p(a.slice(1,a.length-1)),"abs"]:[a],p=a=>{if(a.match(/0x\d/))return;if(0===L(a))return s(a);a.slice(L(a));let b=Math.max(M(a,"+"),M(a,"-"));return -1===b&&(b=Math.max(M(a,"*"),M(a,"/"))),[p(a.slice(0,b)),a[b],p(a.slice(b+1))]},O=a=>{if(Array.isArray(a[0]))a[0]=O(a[0]);else if(Array.isArray(a[2]))a[2]=O(a[2]);else if("string"==typeof a[0])a[0]=T(a[0]);else if("string"==typeof a[2])a[2]=T(a[2]);else{if(1===a.length)return a[0];let c=[];for(let i=0;i<a[0].n.length;i++)c.push(a[0].n[i][0]);if(3===a.length)for(let j=0;j<a[2].n?.length;j++)c.push(a[2].n[j][0]);(c=[...new Set(c)]).sort((a,b)=>a-b);let f=[],k=Math.max(a[0].D,a[2]?.D??0),b=0,e=0;for(let d=0;d<c.length;d++){if("+"===a[1])f.push([c[d],[a[0].n[b][1][0]+a[2].n[e][1][0],a[0].n[b][1][1]+a[2].n[e][1][1],]]);else if("-"===a[1])f.push([c[d],[a[0].n[b][1][0]-a[2].n[e][1][0],a[0].n[b][1][1]-a[2].n[e][1][1],]]);else if("*"===a[1]){if(0!==a[0].n[b][1][1]&&0!==a[2].n[e][1][1])throw 0;f.push([c[d],[a[0].n[b][1][0]*a[2].n[e][1][0],a[0].n[b][1][1]*a[2].n[e][1][0]+a[0].n[b][1][0]*a[2].n[e][1][1],]])}else if("/"===a[1]){if(0!==a[2].n[e][1][1])throw 0;f.push([c[d],[a[0].n[b][1][0]/a[2].n[e][1][0],a[0].n[b][1][1]/a[2].n[e][1][0],]])}else if("abs"===a[1]){if(0===d&&k++,0===a[0].n[b][1][1])f.push([c[d],[Math.abs(a[0].n[b][1][0]),0,]]);else{let g=0-a[0].n[b][1][0]/a[0].n[b][1][1];if(g<=c[d]||c[d+1]<=g){let l=Math.sign(a[0].n[b][1][1]*(c[d]+(c[d+1]??1/0))/2+a[0].n[b][1][0]);f.push([c[d],[l*a[0].n[b][1][0],l*a[0].n[b][1][1],]])}else{let h=Math.sign(a[0].n[b][1][1]*(c[d]+g)/2+a[0].n[b][1][0]);f.push([c[d],[h*a[0].n[b][1][0],h*a[0].n[b][1][1],]],[g,[-1*h*a[0].n[b][1][0],-1*h*a[0].n[b][1][1],]])}}}c[d+1]===(a[0].n[b+1]??[])[0]&&b++,c[d+1]===(a[2]?.n[e+1]??[])[0]&&e++}return{n:f,D:k}}return a},m=$.getElementById("m");$.body.addEventListener("input",()=>{try{let a=$.getElementById("U").value;if(""===a&&(m.innerHTML=""),!"0123456789x+-*/[]()".includes(a[a.length-1])){a=$.getElementById("U").value=a.slice(0,a.length-1);return}if(a=(a=a.replace(/^([\+\-])/g,"0$1").replace(/([\(\[])([\+\-])/g,"$10$2")).replace(/([\d\)\]x])([\(\[x])/g,"$1*$2"),m.innerHTML="",void 0===L(a)|| void 0===F(a))return;let g=p(a),c=[];for(let f=0;"string"!=typeof c&&(c=O(g),"object"!=typeof c||Array.isArray(c));f++)if(f>=100)return;let d=(a,b)=>c.n[a][1][b],b="";for(let e=1;e<c.n.length;e++)P=c.n[e][0],b+=(d(e,1)-d(e-1,1))/2+"[x+"+ -P+"]+";b+=(d(0,1)+d(c.n.length-1,1))/2+"x+"+(d(0,0)+d(c.n.length-1,0))/2,b=b.replace(/[\+\-]0\[.+?\]/g,"").replace(/^0\[.+?\]/g,"").replace(/\+\-/g,"-").replace(/^1\[/g,"[").replace(/([\+\-])1\[/g,"$1[").replace("[x+0]","[x]").replace(/([\+\-])0x/g,"").replace(/([\+\-])1x/g,"$1x").replace(/^0x/g,"").replace(/^1x/g,"x").replace(/(.)[\+\-]0$/g,"$1").replace(/^\+/g,""),""===b&&(b="0"),b.includes("NaN")&&(b=""),b=b.replace(/[\[\]]/g,"|"),m.innerHTML=b}catch(h){}})
 
-        </script>
+		</script>
   </body>
 </html>
